@@ -47,7 +47,7 @@ viewDetailedPhoto model =
             if model.liked then
                 Unlike
             else
-                like
+                Like
     in
     div [ class "detailed-photo" ]
         [ img [ src model.url ] []
@@ -60,7 +60,7 @@ viewDetailedPhoto model =
                     ]
                     []
                 ]
-            , [ h2 [ class "caption" ] [ text model.caption ] ]
+            , h2 [ class "caption" ] [ text model.caption ]
             ]
         ]
 
@@ -73,6 +73,10 @@ view model =
             [ viewDetailedPhoto model ]
         ]
 
-main : Html msg
+type Msg
+    = Like
+    | Unlike
+
+main : Html Msg
 main =
     view initialModel
