@@ -16,3 +16,9 @@ olderDog = haveBirthday dog
 -- レコード更新構文を使う
 
 haveBirthday d = { d | age = d.age + 1 }
+
+-- イミュータブルであることの利点
+
+-- レコード型のモデルを作成する
+
+-- 2.2 ビューを作成する
