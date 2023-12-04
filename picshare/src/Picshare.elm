@@ -2,7 +2,7 @@ module Picshare exposing (main)
 
 import Browser
 import Html exposing (..)
-import Html.Attributes exposing (class, src)
+import Html.Attributes exposing (class, placeholder, src, type_)
 import Html.Events exposing (onClick)
 
 
@@ -10,6 +10,8 @@ type alias Model =
     { url : String
     , caption : String
     , liked : Bool
+    , comments : List String
+    , newComment : String
     }
 
 
@@ -23,6 +25,8 @@ initialModel =
     { url = baseUrl ++ "1.jpg"
     , caption = "Surfing"
     , liked = False
+    , comments = [ "Cowabunga, dude!" ]
+    , newComment = ""
     }
 
 
@@ -46,6 +50,42 @@ viewLoveButton model =
         ]
 
 
+viewComment : String -> Html Msg
+viewComment comment =
+    li []
+        [ strong [] [ text "Comment:" ]
+        , text (" " ++ comment)
+        ]
+
+
+viewCommentList : List String -> Html Msg
+viewCommentList comments =
+    case comments of
+        [] ->
+            text ""
+
+        _ ->
+            div [ class "comments" ]
+                [ ul []
+                    (List.map viewComment comments)
+                ]
+
+
+viewComments : Model -> Html Msg
+viewComments model =
+    div []
+        [ viewCommentList model.comments
+        , form [ class "new-comment" ]
+            [ input
+                [ type_ "text"
+                , placeholder "Add a comment..."
+                ]
+                []
+            , button [] [ text "Save" ]
+            ]
+        ]
+
+
 viewDetailedPhoto : Model -> Html Msg
 viewDetailedPhoto model =
     div [ class "detailed-photo" ]
@@ -53,6 +93,7 @@ viewDetailedPhoto model =
         , div [ class "photo-info" ]
             [ viewLoveButton model
             , h2 [ class "caption" ] [ text model.caption ]
+            , viewComments model
             ]
         ]
 
