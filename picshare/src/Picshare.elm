@@ -77,6 +77,17 @@ type Msg
     = Like
     | Unlike
 
+update :
+    Msg
+    -> { url : String, caption : String, liked : Bool }
+    -> { url : String, caption : String, liked : Bool }
+update msg model =
+    case msg of
+        Like ->
+            { model | liked = True }
+        Unlike ->
+            { model | liked = False }
+
 main : Html Msg
 main =
     view initialModel
