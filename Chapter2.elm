@@ -24,3 +24,5 @@ haveBirthday d = { d | age = d.age + 1 }
 -- 2.2 ビューを作成する
 
 -- 2.3 状態の変更を扱う
+
+-- 2.4 The Elm Architectureのライフサイクル
