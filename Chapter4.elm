@@ -41,3 +41,17 @@ excitedGreeting name =
       |> String.toUpper
       |> greet
       |> exclaim
+
+-- JSONオブジェクトをデコードする
+
+import Json.Decode exposing (decodeString, int, string, succeed)
+import Json.Decode.Pipeline exposing (required)
+
+dog name age = { name = name, age = age }
+
+dogDecoder =
+    succeed dog
+        |> required "name" string
+        |> required "age" int
+
+decodeString dogDecoder """{"name": "Tucker", "age": 11}"""
