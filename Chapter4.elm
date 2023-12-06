@@ -55,3 +55,9 @@ dogDecoder =
         |> required "age" int
 
 decodeString dogDecoder """{"name": "Tucker", "age": 11}"""
+
+-- 写真データ用のデコーダーを作成する
+import Picshare exposing (photoDecoder)
+import Json.Decode exposing (decodeString)
+
+decodeString photoDecoder """{ "id": 1, "url": "https://programming-elm.surge.sh/1.jpg", "caption": "Surfing", "liked": false, "comments": ["Cowabunga, dude!"]}"""
