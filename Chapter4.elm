@@ -24,3 +24,20 @@ decodeString bool "true"
 decodeString string "\"Elm is Awesome\""
 decodeString (list int) "[1, 2, 3]"
 decodeString (field "name" string) """{"name": "Tucker"}"""
+
+-- パイプライン演算子を使って関数を合成する
+greet name = "Hello, " ++ name 
+
+exclaim phrase = phrase ++ "!"
+
+excitedGreeting name = exclaim (greet (String.toUpper name))
+
+excitedGreeting "Elm"
+
+excitedGreeting name = name |> String.toUpper |> greet |> exclaim
+
+excitedGreeting name =
+    name
+      |> String.toUpper
+      |> greet
+      |> exclaim
