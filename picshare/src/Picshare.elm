@@ -4,6 +4,7 @@ import Browser
 import Html exposing (..)
 import Html.Attributes exposing (class, disabled, placeholder, src, type_, value)
 import Html.Events exposing (onClick, onInput, onSubmit)
+import Http
 import Json.Decode exposing (Decoder, bool, int, list, string, succeed)
 import Json.Decode.Pipeline exposing (hardcoded, required)
 
@@ -51,6 +52,14 @@ initialModel =
     , comments = [ "Cowabunga, dude!" ]
     , newComment = ""
     }
+
+
+fetchFeed : Cmd Msg
+fetchFeed =
+    Http.get
+        { url = baseUrl ++ "feed/1"
+        , expect = Http.expectJson LoadFeed photoDecoder
+        }
 
 
 viewLoveButton : Model -> Html Msg

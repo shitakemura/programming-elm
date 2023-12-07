@@ -61,3 +61,7 @@ import Picshare exposing (photoDecoder)
 import Json.Decode exposing (decodeString)
 
 decodeString photoDecoder """{ "id": 1, "url": "https://programming-elm.surge.sh/1.jpg", "caption": "Surfing", "liked": false, "comments": ["Cowabunga, dude!"]}"""
+
+-- 4.2 HTTP APIからデータを取得する
+
+-- コマンドを作成する

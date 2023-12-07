@@ -12,3 +12,5 @@
 
 - elm install elm/json
 - elm install NoRedInk/elm-json-decode-pipeline
+
+- elm install elm/http
