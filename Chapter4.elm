@@ -72,3 +72,7 @@ decodeString photoDecoder """{ "id": 1, "url": "https://programming-elm.surge.sh
 type Maybe a
     = Just a
     | Nothing
+
+-- 実際にAPIから写真データを受け取る
+
+-- 4.3 学んだことのまとめ
