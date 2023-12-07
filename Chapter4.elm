@@ -65,3 +65,5 @@ decodeString photoDecoder """{ "id": 1, "url": "https://programming-elm.surge.sh
 -- 4.2 HTTP APIからデータを取得する
 
 -- コマンドを作成する
+
+-- コマンドを送信する
