@@ -10,7 +10,11 @@
 
 - elm make src/Picshare.elm --output picshare.js
 
+### Chapter3
+
 - elm install elm/json
 - elm install NoRedInk/elm-json-decode-pipeline
+
+#### Chapter4
 
 - elm install elm/http
