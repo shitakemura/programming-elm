@@ -67,3 +67,8 @@ decodeString photoDecoder """{ "id": 1, "url": "https://programming-elm.surge.sh
 -- コマンドを作成する
 
 -- コマンドを送信する
+
+-- Nullを安全に扱う
+type Maybe a
+    = Just a
+    | Nothing
