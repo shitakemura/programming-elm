@@ -5,7 +5,7 @@ import Html exposing (..)
 import Html.Attributes exposing (class, disabled, placeholder, src, type_, value)
 import Html.Events exposing (onClick, onInput, onSubmit)
 import Http
-import Json.Decode exposing (Decoder, bool, int, list, string, succeed)
+import Json.Decode exposing (Decoder, bool, decodeString, int, list, string, succeed)
 import Json.Decode.Pipeline exposing (hardcoded, required)
 import Platform.Cmd as Cmd
 import WebSocket
@@ -32,6 +32,7 @@ type alias Feed =
 type alias Model =
     { feed : Maybe Feed
     , error : Maybe Http.Error
+    , streamQueue : Feed
     }
 
 
@@ -60,6 +61,7 @@ initialModel : Model
 initialModel =
     { feed = Nothing
     , error = Nothing
+    , streamQueue = []
     }
 
 
@@ -200,7 +202,8 @@ type Msg
     | UpdateComment Id String
     | SaveComment Id
     | LoadFeed (Result Http.Error Feed)
-    | LoadStreamPhoto String
+    | LoadStreamPhoto (Result Json.Decode.Error Photo)
+    | FlushStreamQueue
 
 
 saveNewComment : Photo -> Photo
@@ -280,17 +283,22 @@ update msg model =
         LoadFeed (Err error) ->
             ( { model | error = Just error }, Cmd.none )
 
-        LoadStreamPhoto data ->
-            let
-                _ =
-                    Debug.log "WebSocket data" data
-            in
+        LoadStreamPhoto (Ok photo) ->
+            ( { model | streamQueue = photo :: model.streamQueue }
+            , Cmd.none
+            )
+
+        LoadStreamPhoto (Err _) ->
+            ( model, Cmd.none )
+
+        FlushStreamQueue ->
             ( model, Cmd.none )
 
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    WebSocket.receive LoadStreamPhoto
+    WebSocket.receive
+        (LoadStreamPhoto << decodeString photoDecoder)
 
 
 main : Program () Model Msg
