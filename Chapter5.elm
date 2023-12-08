@@ -11,3 +11,5 @@
 -- 5.2 WebSocketから写真データを受け取る
 
 -- WebSocketサーバーに接続する
+
+-- WebSocketのポートを使用する

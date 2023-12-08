@@ -29,7 +29,10 @@
 
       function listen(url) {
         var socket = new WebSocket(url);
-        app.ports.receive.send(event.data);
+
+        socket.onmessage = function(event) {
+          app.ports.receive.send(event.data);
+        };
       }
     })();
   </script>
