@@ -217,13 +217,40 @@ viewError error =
             text ""
 
 
+viewSection : String -> List (Html msg) -> Html msg
+viewSection heading children =
+    section [ class "salad-section" ]
+        (h2 [] [ text heading ] :: children)
+
+
+viewToppingOption : String -> Topping -> Set String -> Html Msg
+viewToppingOption toppingLabel topping toppings =
+    label [ class "select-option" ]
+        [ input
+            [ type_ "checkbox"
+            , checked (Set.member (toppingToString topping) toppings)
+            , onCheck (SaladMsg << ToggleTopping topping)
+            ]
+            []
+        , text toppingLabel
+        ]
+
+
+viewSelectToppings : Set String -> Html Msg
+viewSelectToppings toppings =
+    div []
+        [ viewToppingOption "Tomatoes" Tomatoes toppings
+        , viewToppingOption "Cucumbers" Cucumbers toppings
+        , viewToppingOption "Onions" Onions toppings
+        ]
+
+
 viewBuild : Model -> Html Msg
 viewBuild model =
     div []
         [ viewError model.error
-        , section [ class "salad-section" ]
-            [ h2 [] [ text "1. Select Base" ]
-            , label [ class "select-option" ]
+        , viewSection "1. Select Base"
+            [ label [ class "select-option" ]
                 [ input
                     [ type_ "radio"
                     , name "base"
@@ -254,39 +281,10 @@ viewBuild model =
                 , text "Spring Mix"
                 ]
             ]
-        , section [ class "salad-section" ]
-            [ h2 [] [ text "2. Select Toppings" ]
-            , label [ class "select-option" ]
-                [ input
-                    [ type_ "checkbox"
-                    , checked (Set.member (toppingToString Tomatoes) model.salad.toppings)
-                    , onCheck (SaladMsg << ToggleTopping Tomatoes)
-                    ]
-                    []
-                , text "Tomatoes"
-                ]
-            , label [ class "select-option" ]
-                [ input
-                    [ type_ "checkbox"
-                    , checked (Set.member (toppingToString Cucumbers) model.salad.toppings)
-                    , onCheck (SaladMsg << ToggleTopping Cucumbers)
-                    ]
-                    []
-                , text "Cucumbers"
-                ]
-            , label [ class "select-option" ]
-                [ input
-                    [ type_ "checkbox"
-                    , checked (Set.member (toppingToString Onions) model.salad.toppings)
-                    , onCheck (SaladMsg << ToggleTopping Onions)
-                    ]
-                    []
-                , text "Onions"
-                ]
-            ]
-        , section [ class "salad-section" ]
-            [ h2 [] [ text "3. Select Dressing" ]
-            , label [ class "select-option" ]
+        , viewSection "2. Select Toppings"
+            [ viewSelectToppings model.salad.toppings ]
+        , viewSection "3. Select Dressing"
+            [ label [ class "select-option" ]
                 [ input
                     [ type_ "radio"
                     , name "dressing"
@@ -327,9 +325,8 @@ viewBuild model =
                 , text "Oil and Vinegar"
                 ]
             ]
-        , section [ class "salad-section" ]
-            [ h2 [] [ text "4. Enter Contact Info" ]
-            , div [ class "text-input" ]
+        , viewSection "4. Enter Contact Info"
+            [ div [ class "text-input" ]
                 [ label []
                     [ div [] [ text "Name:" ]
                     , input
